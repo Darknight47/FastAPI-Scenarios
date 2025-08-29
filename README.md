@@ -1,7 +1,7 @@
 # FastAPI-Scenarios
 ## Scenario 0
 ### Digital Post-It Notes
-You’ve been asked to build a super simple backend for a web app that lets users create digital sticky notes. Think of it like a minimalist version of Google Keep — no login, no fancy features, just a place to store and retrieve notes.
+You’ve been asked to build a super simple backend for a web app that lets users create digital sticky notes. Think of it like a minimalist version of Google Keep, no login, no fancy features, just a place to store and retrieve notes.
 
 The frontend team wants to be able to:
 

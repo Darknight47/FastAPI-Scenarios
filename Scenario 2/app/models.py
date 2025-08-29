@@ -19,7 +19,7 @@ class TaskBase(SQLModel):
     status: TaskStatus = Field(default=TaskStatus.PENDING)
     due_date: date | None = None # Optional
 
-# Input Task Class
+# Input Task Class (POST endpoint)
 class TaskCreate(TaskBase):
     pass
 
@@ -33,3 +33,10 @@ class Task(TaskBase, table=True):
 class TaskRead(TaskBase):
     id: int
     created_at: datetime
+
+# Updating a Task (Partial Updating, PUT endpoint)
+class TaskUpdate(SQLModel):
+    title: str | None = None
+    description: str | None = None
+    status: TaskStatus | None = None
+    due_date: date | None = None
