@@ -26,3 +26,16 @@ You’ve been asked to upgrade the backend so that:
 Storage: Use SQLite to persist notes!
 
 ---
+## Scenario 2
+### Task Tracker for Freelancers
+You’ve been hired by a small freelance platform to build the backend for a task tracking system. Freelancers want to log tasks they’re working on, track their status, and view their progress over time.
+
+The frontend team wants:
+
+1. A clean API to create, update, and retrieve tasks!
+2. Status tracking (e.g. pending, in_progress, completed)!
+3. Filtering by status or date!
+4. Optional due dates!
+5. A scalable structure for future features like user accounts or billing!
+
+Storage: Use SQLite
