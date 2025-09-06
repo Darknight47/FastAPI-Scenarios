@@ -17,3 +17,5 @@ class User(Base):
 
     role_id = Column(Integer, ForeignKey('roles.id')) # is the foreign key pointing to Role. 
     role = relationship('Role', back_populates='users') # the back-reference to the role of this user.
+
+    feedbacks = relationship('Feedback', back_populates='author', cascade='all, delete-orphan')
