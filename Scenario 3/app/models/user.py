@@ -14,8 +14,15 @@ class User(Base):
     # User is the child table, Role is the parent table.
 
     # One-To-Many relationship: A role can have many users, but a user has only one role.
-
     role_id = Column(Integer, ForeignKey('roles.id')) # is the foreign key pointing to Role. 
-    role = relationship('Role', back_populates='users') # the back-reference to the role of this user.
 
+    # Relationships
+        
+    role = relationship('Role', back_populates='users') # the back-reference to the role of this user.
+    # From a user, I want to access all feedbacks they’ve authored.
     feedbacks = relationship('Feedback', back_populates='author', cascade='all, delete-orphan')
+    # From a user, I want to access all enrollments they have.
+    # This user has many enrollments. On the Enrollment side, the relationship is called 'user'
+    # “This relationship connects to the attribute named this on the other model.”
+    # It’s a manual, explicit link between two attributes.
+    enrollments = relationship('Enrollment', back_populates='user', cascade='all, delete-orphan')

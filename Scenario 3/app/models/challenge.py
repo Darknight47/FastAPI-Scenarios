@@ -19,4 +19,3 @@ class Challenge(Base):
 
     # cascade="all, delete-orphan" ensures feedback is deleted if its parent user or challenge is removed.
     feedbacks = relationship('Feedback', back_populates='challenge', cascade='all, delete-orphan')
-
