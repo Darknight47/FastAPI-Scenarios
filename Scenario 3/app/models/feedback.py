@@ -16,7 +16,7 @@ class Feedback(Base):
     # A feedback belongs to one user and one challenge.
 
     # Foreign Keys
-    user_id = Column(Integer, ForeignKey('users.id'), nullabel=False)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     challenge_id = Column(Integer, ForeignKey('challenges.id'), nullable=False)
 
     # Relationships

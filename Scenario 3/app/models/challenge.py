@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy import Enum as SqlEnum
 from sqlalchemy.orm import relationship
+from app.models.challenge_tag import challenge_tags
 from enum import Enum
 from app.database import Base
 
@@ -31,3 +32,7 @@ class Challenge(Base):
     
     # From a challenge, I want to access all progress entries associated with it.
     progress_entries = relationship('Progress', back_populates = 'challenge', cascade='all, delete-orphan')
+
+    # Many-to-many relationship with Tag through the association table challenge_tags.
+    # From a challenge, I want to access all tags associated with it.
+    tags = relationship('Tag', secondary='challenge_tags', back_populates='challenges')
