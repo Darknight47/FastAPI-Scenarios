@@ -17,5 +17,17 @@ class Challenge(Base):
     description = Column(String, nullable=True)
     difficulty = Column(SqlEnum(DifficultyLevel))
 
+    # Relationships
+    
+    # From a challenge, I want to access all feedbacks associated with it.
     # cascade="all, delete-orphan" ensures feedback is deleted if its parent user or challenge is removed.
     feedbacks = relationship('Feedback', back_populates='challenge', cascade='all, delete-orphan')
+    
+    # Many-to-many relationship with Path through the association table path_challenges.
+    # back_populates creates a bidirectional link so we can do:
+        # path.challenges → all challenges in a path
+        # challenge.paths → all paths that include this challenge
+    paths = relationship('Path', secondary='path_challenges', back_populates='challenges')
+    
+    # From a challenge, I want to access all progress entries associated with it.
+    progress_entries = relationship('Progress', back_populates = 'challenge', cascade='all, delete-orphan')

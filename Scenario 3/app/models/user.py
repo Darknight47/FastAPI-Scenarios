@@ -21,8 +21,14 @@ class User(Base):
     role = relationship('Role', back_populates='users') # the back-reference to the role of this user.
     # From a user, I want to access all feedbacks they’ve authored.
     feedbacks = relationship('Feedback', back_populates='author', cascade='all, delete-orphan')
+    
     # From a user, I want to access all enrollments they have.
     # This user has many enrollments. On the Enrollment side, the relationship is called 'user'
     # “This relationship connects to the attribute named this on the other model.”
     # It’s a manual, explicit link between two attributes.
     enrollments = relationship('Enrollment', back_populates='user', cascade='all, delete-orphan')
+
+    # From a user, I want to access all progress entries they have.
+    progress_entries = relationship('Progress', back_populates='user', cascade='all, delete-orphan')
+
+    
