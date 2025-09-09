@@ -26,5 +26,8 @@ def create_role(role: RoleCreate, db: Session = Depends(get_db)):
 
 @router.get("/", response_model=list[RoleRead])
 def get_roles(db: Session = Depends(get_db)):
+    print("here----------")
     roles = db.query(Role).all()
+    # FastAPI will use RoleRead.model_validate(role) behind the scenes.
+    # So unless from_attributes = True, it can’t convert the SQLAlchemy role object into a Pydantic model.
     return roles
