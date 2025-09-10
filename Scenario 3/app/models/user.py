@@ -6,7 +6,7 @@ class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     username = Column(String, unique=True, nullable=False)
-    email = Column(String)
+    email = Column(String, unique=True, nullable=False)
     hashed_password = Column(String) # is stored securely — never expose it via Pydantic schemas.
 
     # A user belongs to one role → so we store role_id in the User table.

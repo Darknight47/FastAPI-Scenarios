@@ -3,14 +3,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
 
 # Connection String for the SQLite database
-DATABASE_URL = "sqlite:///./scen3.db"
+DATABASE_URL = "postgresql://admin:admin@localhost:5431/scen3"
 
 # The engine, which is the core interface between SQLAlchemy and your actual database.
-engine = create_engine(
-    DATABASE_URL, connect_args = {"check_same_thread": False}
-    # SQLite, by default, doesn’t allow the same connection to be used in multiple threads.
-    # The connect_args parameter with check_same_thread set to False allows the connection to be shared across threads.
-)
+# engine = create_engine(
+#     DATABASE_URL, connect_args = {"check_same_thread": False}
+#     # SQLite, by default, doesn’t allow the same connection to be used in multiple threads.
+#     # The connect_args parameter with check_same_thread set to False allows the connection to be shared across threads.
+# )
+
+engine = create_engine(DATABASE_URL, echo=True)
 
 # autocommit=False: You manually control when changes are committed.
 # autoflush=False: Changes aren’t sent to the database until we flush or commit. This gives us more control (and avoids surprises).

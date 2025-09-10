@@ -3,6 +3,7 @@
 from fastapi import APIRouter, HTTPException, Depends
 from app.models.user import User
 from app.schemas.user import UserCreate, UserBase
+from app.models.role import Role
 from app.database import get_db
 from sqlalchemy.orm import Session
 from app.utils.security import hash_password
@@ -24,11 +25,18 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     # Hash the password before storing
     hashed_password = hash_password(user.password)
 
-    # Creating a new user instance
+    # Fetch default role ('user' is the default role name, adjust as necessary)
+    default_role = db.query(Role).filter(Role.name == 'user').first()
+    if(not default_role):
+        raise HTTPException(status_code=500, detail="Default role not found")
+        
+
+    # Creating a new user instance (default role is 'user')
     new_user = User(
         username = user.username,
         email = user.email,
-        hashed_password = hashed_password
+        hashed_password = hashed_password,
+        role_id = default_role.id
     )
 
     # Add to the session and commit to the database
