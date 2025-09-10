@@ -47,10 +47,22 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 
     return {'id': new_user.id, 'username': new_user.username}
 
+# --------------------- GET ALL ----------------------
 # The endpoint becomes GET /users/ in the final app.
 # It retrieves all users from the database and returns them as a list of UserRead objects. (Not recommended for production due to potential data volume)
 # We should retrieve data with guardrailes like pagination, filtering, etc.
-@router.get("/", response_model=list(UserRead))
+@router.get("/", response_model=list[UserRead])
 def get_users(db: Session = Depends(get_db)):
     users = db.query(User).all()
     return users
+
+
+# ---------------------- Get by ID -------------------
+# The endpoint becomes GET /users/{user_id} in the final app.
+# It retrieves a user by their ID and returns it as a UserRead object.
+@router.get("/{user_id}", response_model=UserRead)
+def get_user(user_id: int, db: Session = Depends(get_db)):
+    user = db.query(User).filter(User.id == user_id).first()
+    if(not user):
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
