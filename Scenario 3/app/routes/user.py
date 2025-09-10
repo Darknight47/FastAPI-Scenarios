@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter, HTTPException, Depends
 from app.models.user import User
-from app.schemas.user import UserCreate, UserBase
+from app.schemas.user import UserCreate, UserRead
 from app.models.role import Role
 from app.database import get_db
 from sqlalchemy.orm import Session
@@ -17,7 +17,8 @@ router = APIRouter(prefix="/users", tags=["Users"])
 @router.post("/", response_model=dict)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     # Check if username or email already exists
-    existing_user = db.query(User).filter(User.username == user.username).first() | db.query(User).filter(User.email == user.email).first()
+    existing_user = db.query(User).filter(
+        (User.username == user.username) | (User.email == user.email)).first()
     if(existing_user):
         raise HTTPException(status_code=400, detail="Username or email already registered")
     
@@ -45,3 +46,11 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(new_user) # Refresh to get the new data from the database (like the generated ID)
 
     return {'id': new_user.id, 'username': new_user.username}
+
+# The endpoint becomes GET /users/ in the final app.
+# It retrieves all users from the database and returns them as a list of UserRead objects. (Not recommended for production due to potential data volume)
+# We should retrieve data with guardrailes like pagination, filtering, etc.
+@router.get("/", response_model=list(UserRead))
+def get_users(db: Session = Depends(get_db)):
+    users = db.query(User).all()
+    return users
