@@ -1,4 +1,5 @@
 # Pydantic User Schema
+from typing import Optional
 from pydantic import BaseModel, EmailStr
 
 class UserBase(BaseModel):
@@ -18,3 +19,9 @@ class UserRead(UserBase):
     class Config:
         # Allows model to be created from ORM objects
         from_attributes = True
+
+# Class for updating user data, all fields are optional
+class UserUpdate(BaseModel):
+    username: Optional[str] = None
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
