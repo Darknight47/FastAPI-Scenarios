@@ -33,4 +33,14 @@ def create_path(path: PathCreate, db: Session = Depends(get_db)):
 def get_paths(db: Session = Depends(get_db)):
     paths = db.query(Path).all()
     return paths
-            
+
+# ----------------- Get the number of enrollments for a path -----------------
+@router.get("/{path_id}/enrollments/count", response_model=int)
+def get_enrollment_count(path_id: int, db: Session = Depends(get_db)):
+    path = db.query(Path).filter(Path.id == path_id).first()
+    if(not path):
+        raise HTTPException(status_code=404, detail="Path not found.")
+    
+    enrollment_count = db.query(Path).filter(Path.id == path_id).count()
+    
+    return enrollment_count

@@ -45,3 +45,18 @@ def create_enrollment(enrollment: EnrollmentCreate, db: Session = Depends(get_db
     # Refresh the instance to get the generated ID and enrolled_at timestamp
     db.refresh(db_enrollment)
     return db_enrollment
+
+# ----------------- Delete a user's enrollment in a path -----------------
+# User sees a list of paths they’re enrolled in
+# Each path has a button: Unenroll or Leave
+
+@router.delete("/{enrollment_id}", response_model=dict)
+def delete_enrollment(enrollment_id: int, db: Session = Depends(get_db)):
+    # Check if the enrollment exists
+    enrollment = db.query(Enrollment).filter(Enrollment.id == enrollment_id).first()
+    if(not enrollment):
+        raise HTTPException(status_code=404, detail="Enrollment not found")
+    
+    db.delete(enrollment)
+    db.commit()
+    return{"detail": "Enrollment deleted successfully"}
