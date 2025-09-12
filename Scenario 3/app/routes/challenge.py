@@ -6,7 +6,7 @@ from app.models.challenge import Challenge, DifficultyLevel
 from app.models.tag import Tag
 from app.schemas.challenge import ChallengeCreate, ChallengeRead
 
-router = APIRouter("/challenges", tags=['challenges'])
+router = APIRouter(prefix="/challenges", tags=['challenges'])
 
 # ---------------------- Create a new challenge ----------------------
 @router.post("/", response_model=ChallengeRead)
@@ -25,3 +25,4 @@ def create_challenge(challenge: ChallengeCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_challenge)
     return db_challenge
+

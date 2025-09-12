@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import user, role, path, enrollment
+from app.routes import user, role, path, enrollment, challenge
 
 app = FastAPI()
 
@@ -11,3 +11,5 @@ app.include_router(role.router)
 app.include_router(path.router)
 # Including router from enrollment.py
 app.include_router(enrollment.router)
+# Including router from challenge.py
+app.include_router(challenge.router)

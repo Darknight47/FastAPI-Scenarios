@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
 from app.database import get_db
 from app.models.path import Path
+from app.models.challenge import Challenge
 from app.schemas.path import PathCreate, PathRead
 
 
@@ -44,3 +45,49 @@ def get_enrollment_count(path_id: int, db: Session = Depends(get_db)):
     enrollment_count = db.query(Path).filter(Path.id == path_id).count()
     
     return enrollment_count
+
+
+# ----------------- Attach a challenge to a path --------------------
+@router.post("/{path_id}/challenges/{challenge_id}", response_model=dict)
+def attach_challenge_to_path(path_id: int, challenge_id: int, db: Session = Depends(get_db)):
+    path = db.query(Path).filter(Path.id == path_id).first()
+    if(not path):
+        raise HTTPException(status_code=404, detail="Path not found.")
+    
+    challenge = db.query(Challenge).filter(Challenge.id == challenge_id).first()
+    if(not challenge):
+        raise HTTPException(status_code=404, detail="Challenge not found.")
+    
+    if(challenge in path.challenges):
+        raise HTTPException(status_code=400, detail="Challenge already attached to the path.")
+    
+    # Even though challenges is a relationship, SQLAlchemy treats it as a dynamic collection when it's a one-to-many or many-to-many relationship. 
+    # Under the hood, it's not a plain list — it's a special InstrumentedList, which:
+    # Tracks changes (additions/removals)
+    # Automatically updates the association table (path_challenges)
+    # Integrates with the session and flush logic
+    path.challenges.append(challenge)
+
+    db.commit()
+    db.refresh(path)
+    return {"message": "Challenge attached to path successfully."}
+
+# ----------------- Detach a challenge from a path --------------------
+@router.delete("/{path_id}/challenges/{challenge_id}", response_model=dict)
+def detach_challenge_from_path(path_id: int, challenge_id: int, db: Session = Depends(get_db)):
+    path = db.query(Path).filter(Path.id == path_id).first()
+    if(not path):
+        raise HTTPException(status_code=404, detail="Path not found.")
+    
+    challenge = db.query(Challenge).filter(Challenge.id == challenge_id).first()
+    if(not challenge):
+        raise HTTPException(status_code=404, detail="Challenge not found.")
+    
+    if(challenge not in path.challenges):
+        raise HTTPException(status_code=400, detail="Challenge is not attached to the path.")
+    
+    path.challenges.remove(challenge)
+
+    db.commit()
+    db.refresh(path)
+    return {"message": "Challenge detached from path successfully."}
