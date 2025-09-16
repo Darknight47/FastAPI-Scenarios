@@ -50,15 +50,41 @@ The system should allow:
 1. Users to track their progress across multiple learning paths
 2. Challenges to be completed, rated, and commented on
 3. Feedback to be stored and retrieved efficiently
-4. Filtering and sorting of challenges based on relevance, difficulty, and popularity
-5. Pagination for browsing large sets of challenges or feedback entries
 
 The platform is designed to be scalable, with thousands of users and tens of thousands of challenges. Your API must be clean, performant, and intuitive for frontend developers to consume.
 
 **Example Use Cases:**
 
 1. A user wants to browse all challenges tagged with “Python” and sorted by difficulty
-2. A mentor wants to view all feedback left on a specific challenge
-3. A learner wants to see their progress across multiple learning paths
-4. A challenge designer wants to update the difficulty level and description of a challenge
-5. A user wants to paginate through feedback entries, 10 per page
+2. A learner wants to see their progress across multiple learning paths
+3. A challenge designer wants to update the difficulty level and description of a challenge
+
+---
+## Scenario 4
+### Collaborative Project Management Platform
+You’ve been hired to build the backend for a collaborative project management tool used by remote software teams.
+
+The platform allows teams to manage projects, assign tasks, track progress, and collaborate in real time. Users can belong to multiple teams. 
+Each team has multiple projects, and each project contains tasks. Tasks can be assigned to users, updated with status changes (e.g. todo, in_progress, done), and commented on.
+
+#### Key features include:
+
+**Team Management**
+1. Users can join or leave teams
+2. Each team has admins who can manage projects and members
+
+**Project & Task Management**
+1. Projects belong to teams
+2. Tasks belong to projects and are assigned to users
+3. Tasks have statuses, priorities, and due dates
+4. Comments on tasks for collaboration
+
+**Activity Logs**
+1. Every key action (e.g., task assignment, status change, comment) is logged with a timestamp
+
+**Filtering & Sorting**
+1. Tasks should be filterable by assignee, status, priority, due date, etc.
+2. Sorting options for project views
+
+**Scalability Focus**
+1. The system is expected to support large distributed teams (1000+ users, 10,000+ tasks per team)
