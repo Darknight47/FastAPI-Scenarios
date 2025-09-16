@@ -26,3 +26,12 @@ def create_challenge(challenge: ChallengeCreate, db: Session = Depends(get_db)):
     db.refresh(db_challenge)
     return db_challenge
 
+# ---------------------- Delete a challenge by ID ----------------------
+@router.post("/{challenge_id}", response_model=dict)
+def delete_challenge(challenge_id: int, db: Session = Depends(get_db)):
+    challenge = db.query(Challenge).filter(Challenge.id == challenge_id).first()
+    if(not challenge):
+        raise HTTPException(status_code=404, detail="Challenge not found.")
+    db.delete(challenge)
+    db.commit()
+    return {"detail": "Challenge deleted successfully."}
