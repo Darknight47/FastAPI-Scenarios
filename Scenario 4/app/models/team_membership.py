@@ -2,11 +2,12 @@
 # It connects User and Team and stores the user's role in the team (like "admin" or "member").
 
 import datetime
-from sqlalchemy import Column, DateTime, Enum, Integer, ForeignKey
+from sqlalchemy import Column, DateTime, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db.database import Base
+from enum import Enum
 
-class Role(Enum):
+class Role(str. Enum):
     MEMBER = 'member'
     ADMIN = 'admin'
 

@@ -18,3 +18,4 @@ class Project(Base):
     
     team = relationship('Team', back_populates='projects')
 
+    tasks = relationship("Task", back_populates='project', cascade='all, delete-orphan')
