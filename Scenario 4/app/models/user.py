@@ -1,5 +1,6 @@
 # User SQLAlchemy Model / Table
 from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 from app.db.database import Base
 
 class User(Base):
@@ -12,3 +13,7 @@ class User(Base):
     hashed_password = Column(String, nullable=False) 
 
     # Relationships 
+
+    # 'memberships' is a list of TeamMembership instances associated with this user.
+    # If user is deleted, all their team memberships are also deleted.
+    memberships = relationship("TeamMembership", back_populates="user", cascade="all, delete-orphan")
