@@ -17,3 +17,5 @@ class User(Base):
     # 'memberships' is a list of TeamMembership instances associated with this user.
     # If user is deleted, all their team memberships are also deleted.
     memberships = relationship("TeamMembership", back_populates="user", cascade="all, delete-orphan")
+    # If user is deleted, all their comments are also deleted.
+    comments = relationship("Comment", back_populates='author', cascade="all, delete-orphan")
