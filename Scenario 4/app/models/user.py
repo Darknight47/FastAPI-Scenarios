@@ -19,3 +19,7 @@ class User(Base):
     memberships = relationship("TeamMembership", back_populates="user", cascade="all, delete-orphan")
     # If user is deleted, all their comments are also deleted.
     comments = relationship("Comment", back_populates='author', cascade="all, delete-orphan")
+    # Optional relationship with Task. (Tasks that have been assigned to this user.)
+    tasks = relationship("Task", back_populates="assignee")
+    # If user is deleted, all their activities are also deleted.
+    activity_logs = relationship("ActivityLog", back_populates="user", cascade="all, delete-orphan")
