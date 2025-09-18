@@ -14,3 +14,5 @@ class Team(Base):
     # Relationships
     members = relationship("TeamMembership", back_populates="team", cascade="all, delete-orphan")
     # 'members' is a list of TeamMembership instances associated with this team.
+
+    projects = relationship("Project", back_populates='team', cascade='all, delete-orphan')

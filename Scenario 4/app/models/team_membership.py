@@ -5,8 +5,6 @@ import datetime
 from sqlalchemy import Column, DateTime, Enum, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db.database import Base
-from app.models.user import User
-from app.models.team import Team
 
 class Role(Enum):
     MEMBER = 'member'
