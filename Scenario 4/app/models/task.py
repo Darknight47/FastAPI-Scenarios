@@ -3,6 +3,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime, timezone
 from app.db.database import Base
+from sqlalchemy.types import Enum as SQLEnum  # Alias to avoid conflict
 from enum import Enum
 
 class TaskStatus(str, Enum):
@@ -22,8 +23,8 @@ class Task(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable= False)
     description = Column(String, nullable=True)
-    status = Column(Enum(TaskStatus), default=TaskStatus.TODO, nullable=False)
-    priority = Column(Enum(TaskPriority), default=TaskPriority.MEDIUM, nullable=False)
+    status = Column(SQLEnum(TaskStatus), default=TaskStatus.TODO, nullable=False)
+    priority = Column(SQLEnum(TaskPriority), default=TaskPriority.MEDIUM, nullable=False)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
     updated_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
     due_date = Column(DateTime, nullable=False)

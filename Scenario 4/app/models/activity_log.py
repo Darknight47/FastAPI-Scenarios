@@ -3,6 +3,7 @@ from sqlalchemy import Column, String, Integer, DateTime, Enum, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db.database import Base
 from datetime import datetime, timezone
+from sqlalchemy.types import Enum as SQLEnum  # Alias to avoid conflict
 import enum
 
 class ActivityType(str, enum.Enum):
@@ -17,7 +18,7 @@ class ActivityLog(Base):
     __tablename__ = 'activity_logs'
 
     id = Column(Integer, primary_key=True, index=True)
-    action_type = Column(Enum(ActivityType), default=ActivityType.OTHER, nullable=False)
+    action_type = Column(SQLEnum(ActivityType), default=ActivityType.OTHER, nullable=False)
     message = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 

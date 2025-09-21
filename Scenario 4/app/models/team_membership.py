@@ -5,9 +5,10 @@ import datetime
 from sqlalchemy import Column, DateTime, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db.database import Base
+from sqlalchemy.types import Enum as SQLEnum  # Alias to avoid conflict
 from enum import Enum
 
-class Role(str. Enum):
+class Role(str, Enum):
     MEMBER = 'member'
     ADMIN = 'admin'
 
@@ -17,8 +18,8 @@ class TeamMembership(Base):
     id = Column(Integer, primary_key=True, index=True) # Primary key column
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False) # Foreign key to User table (child table side)
     team_id = Column(Integer, ForeignKey("teams.id"), nullable=False) # Foreign key to Team table (child table side)
-    role = Column(Enum(Role), default=Role.MEMBER, nullable=False) # Role column with Enum type
-    joined_at = Column(DateTime, default=datetime.utcnow, nullable=False) # Timestamp column for when the user joined the team
+    role = Column(SQLEnum(Role), default=Role.MEMBER, nullable=False) # Role column with Enum type
+    joined_at = Column(DateTime(timezone=True), default=lambda: datetime.now(datetime.timezone.utc)) # Timestamp column for when the user joined the team
 
     # Relationships
 
