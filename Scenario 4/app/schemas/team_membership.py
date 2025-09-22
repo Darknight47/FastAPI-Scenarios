@@ -6,7 +6,7 @@ from app.models.team_membership import Role
 # Input
 class TeamMembershipCreate(BaseModel):
     user_id: int
-    role: Role.MEMBER
+    role: Role
 
 # Output
 class TeamMembershipRead(BaseModel):
@@ -14,5 +14,5 @@ class TeamMembershipRead(BaseModel):
     team_id: int
     joined_at: datetime
 
-    class Cofig:
+    class Config:
         from_attributes = True

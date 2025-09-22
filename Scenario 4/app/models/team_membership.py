@@ -2,6 +2,7 @@
 # It connects User and Team and stores the user's role in the team (like "admin" or "member").
 
 import datetime
+from datetime import datetime, timezone
 from sqlalchemy import Column, DateTime, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 from app.db.database import Base
@@ -19,7 +20,7 @@ class TeamMembership(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False) # Foreign key to User table (child table side)
     team_id = Column(Integer, ForeignKey("teams.id"), nullable=False) # Foreign key to Team table (child table side)
     role = Column(SQLEnum(Role), default=Role.MEMBER, nullable=False) # Role column with Enum type
-    joined_at = Column(DateTime(timezone=True), default=lambda: datetime.now(datetime.timezone.utc)) # Timestamp column for when the user joined the team
+    joined_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc)) # Timestamp column for when the user joined the team
 
     # Relationships
 

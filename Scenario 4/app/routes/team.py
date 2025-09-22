@@ -1,12 +1,14 @@
 # Team & TeamMembership CRUD Operations
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, Body
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.models.team import Team
+from app.schemas.team import TeamCreate, TeamRead
 from app.models.user import User
 from app.models.team_membership import TeamMembership
-from app.schemas.team import TeamCreate, TeamRead
 from app.schemas.team_membership import TeamMembershipCreate, TeamMembershipRead
+
+
 
 router = APIRouter(prefix="/teams", tags=["Teams"])
 
@@ -26,7 +28,7 @@ def create_team(team: TeamCreate, db: Session = Depends(get_db)):
     # Adding to the DB
     db.add(new_team)
     db.commit()
-    db.refresh()
+    db.refresh(new_team)
 
     return new_team
 
@@ -39,8 +41,8 @@ def get_team(team_id: int, db: Session = Depends(get_db)):
     return team
 
 # ------------------ Registering a team member ----------------------
-@router.post("{team_id}/members/", response_model=TeamMembershipRead)
-def add_member_to_team(team_id: int, membership: TeamMembershipCreate, db: Session = Depends(get_db)):
+@router.post("/{team_id}/members/", response_model=TeamMembershipRead)
+def add_member_to_team(team_id: int, membership: TeamMembershipCreate = Body(...), db: Session = Depends(get_db)):
     # Checking if a team exists
     team = db.query(Team).filter(Team.id == team_id).first()
     if(not team):

@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from app.db.database import Base  #
 from app.db.database import engine  # your SQLAlchemy engine
-from app.routes import user
+from app.routes import user, team
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -15,3 +15,4 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 
 app.include_router(user.router)
+app.include_router(team.router)
