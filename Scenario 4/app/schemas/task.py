@@ -21,8 +21,8 @@ class TaskBase(BaseModel):
     description: Optional[str] = None
     status: TaskStatus = TaskStatus.TODO
     priority: TaskPriority = TaskPriority.MEDIUM
-    due_date = datetime
-    assigne_id = Optional[int] = None # Optional FK to User.
+    due_date: datetime
+    assigne_id: Optional[int] = None # Optional FK to User.
     # We’re excluding project_id from TaskCreate, since it will be passed in the route (e.g. /projects/{project_id}/tasks/)
 
 # Input
