@@ -7,8 +7,11 @@ from app.schemas.team import TeamCreate, TeamRead
 from app.models.user import User
 from app.models.team_membership import TeamMembership
 from app.schemas.team_membership import TeamMembershipCreate, TeamMembershipRead
+from app.models.project import Project
+from app.schemas.project import ProjectCreate, ProjectRead
 from typing import List
 from fastapi import status
+
 
 router = APIRouter(prefix="/teams", tags=["Teams"])
 
@@ -98,3 +101,28 @@ def get_team_members(team_id: int, db: Session = Depends(get_db)):
     ).all()
 
     return members
+
+
+# ------------------------- Creating a project for the team ---------------------
+# Projects belong to teams
+@router.post("/{team_id}/projects/", response_model=ProjectRead)
+def create_project_for_team(team_id: int, project_in: ProjectCreate, db: Session = Depends(get_db)):
+    # Checking if the team exists
+    team = db.query(Team).filter(Team.id == team_id).first()
+    if(not team):
+        raise HTTPException(status_code=404, detail="Team not found.")
+    
+    # Creating a project
+    new_project = Project(
+        name = project_in.name,
+        description = project_in.description,
+        due_date = project_in.due_date,
+        team_id = team_id
+    )
+
+    # Saving
+    db.add(new_project)
+    db.commit()
+    db.refresh(new_project)
+
+    return new_project
