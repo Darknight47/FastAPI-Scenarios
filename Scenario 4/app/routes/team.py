@@ -7,8 +7,8 @@ from app.schemas.team import TeamCreate, TeamRead
 from app.models.user import User
 from app.models.team_membership import TeamMembership
 from app.schemas.team_membership import TeamMembershipCreate, TeamMembershipRead
-
-
+from typing import List
+from fastapi import status
 
 router = APIRouter(prefix="/teams", tags=["Teams"])
 
@@ -32,13 +32,6 @@ def create_team(team: TeamCreate, db: Session = Depends(get_db)):
 
     return new_team
 
-# -------------------- Get a team with ID ----------------------
-@router.get("/{team_id}", response_model=TeamRead)
-def get_team(team_id: int, db: Session = Depends(get_db)):
-    team = db.query(Team).filter(Team.id == team_id).first()
-    if(not team):
-        raise HTTPException(status_code=400, detail="Team not found.")
-    return team
 
 # ------------------ Registering a team member ----------------------
 @router.post("/{team_id}/members/", response_model=TeamMembershipRead)
@@ -75,3 +68,33 @@ def add_member_to_team(team_id: int, membership: TeamMembershipCreate = Body(...
     db.refresh(new_membership)
 
     return new_membership
+
+# ---------------------- Removing a membership ------------------------
+@router.delete("/{team_id}/members/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+def remove_member_from_team(team_id: int, user_id: int, db: Session = Depends(get_db)):
+    # Checking if membership exists
+    membership = db.query(TeamMembership).filter(
+        TeamMembership.user_id == user_id,
+        TeamMembership.team_id == team_id
+    ).first()
+
+    if(not membership):
+        raise HTTPException(status_code=404, detail="Membership not found.")
+    
+    db.delete(membership)
+    db.commit()
+    return
+
+# ------------------------- Getting members of a team ----------------------
+@router.get("/{team_id}/members/", response_model=List[TeamMembershipRead])
+def get_team_members(team_id: int, db: Session = Depends(get_db)):
+    # checking if the team exists.
+    team = db.query(Team).filter(Team.id == team_id)
+    if(not team):
+        raise HTTPException(status_code=404, detail="Team not found.")
+    
+    members = db.query(TeamMembership).filter(
+        TeamMembership.team_id == team_id
+    ).all()
+
+    return members

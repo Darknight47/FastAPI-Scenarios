@@ -11,6 +11,7 @@ class TeamMembershipCreate(BaseModel):
 # Output
 class TeamMembershipRead(BaseModel):
     id: int
+    user_id: int
     team_id: int
     joined_at: datetime
 
