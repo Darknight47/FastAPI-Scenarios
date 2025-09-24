@@ -126,3 +126,15 @@ def create_project_for_team(team_id: int, project_in: ProjectCreate, db: Session
     db.refresh(new_project)
 
     return new_project
+
+# -------------------------- Getting all projects in a team ------------------
+@router.get("/{team_id}/projects/")
+def get_projects_for_team(team_id: int, db: Session = Depends(get_db)):
+    # Checking if the team exists
+    team = db.query(Team).filter(Team.id == team_id).first()
+    if(not team):
+        raise HTTPException(status_code=404, detail="Team not found.")
+    
+    # Getting projects assigned to this this.
+    projects = db.query(Project).filter(Project.team_id == team_id).all()
+    return projects

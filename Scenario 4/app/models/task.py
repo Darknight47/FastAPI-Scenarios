@@ -32,7 +32,7 @@ class Task(Base):
     # ForeignKeys
     project_id = Column(Integer, ForeignKey("projects.id", ondelete='CASCADE'), nullable=False)
     # Optional (Nullable) a ForeignKey to User.id (User is the parent and therefore 'child' beholds the ForeignKey.)
-    assigne_id = Column(Integer, ForeignKey("users.id", ondelete='SET NULL'), nullable=True)
+    assignee_id = Column(Integer, ForeignKey("users.id", ondelete='SET NULL'), nullable=True)
 
     # Relationships
     project = relationship("Project", back_populates="tasks")
