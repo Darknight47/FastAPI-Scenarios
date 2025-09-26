@@ -41,7 +41,7 @@ The frontend team wants:
 Storage: Use SQLite
 
 ---
-## Scenario 3
+## Scenario 3 
 ### SkillSync — A Collaborative Learning Platform
 You’ve been hired to build the backend for a platform that helps people learn new skills through structured challenges, peer feedback, and progress tracking. Users can enroll in learning paths, complete challenges, and receive feedback from others in the community. The platform also supports tagging, sorting, and filtering based on difficulty, topic, and completion status.
 
@@ -60,7 +60,7 @@ The platform is designed to be scalable, with thousands of users and tens of tho
 3. A challenge designer wants to update the difficulty level and description of a challenge
 
 ---
-## Scenario 4
+## Scenario 4 🧑‍💼🧮📎
 ### Collaborative Project Management Platform
 You’ve been hired to build the backend for a collaborative project management tool used by remote software teams.
 
@@ -88,3 +88,18 @@ Each team has multiple projects, and each project contains tasks. Tasks can be a
 
 **Scalability Focus**
 1. The system is expected to support large distributed teams (1000+ users, 10,000+ tasks per team)
+
+---
+## Scenario 5 🍟🍳👨‍🍳
+### “Chef’s Companion” — A Smart Recipe Generator for Home Cooks
+You’ve been hired to build the backend for Chef’s Companion, a web-based platform that helps users discover and generate recipes based on what they have in their fridge. The platform is designed to be intuitive, personalized, and scalable, supporting thousands of users and a growing library of ingredients, dietary preferences, and recipe templates.
+
+#### Core Concept
+Users log in to a visual fridge interface where they see a randomized selection of food items. They can select ingredients they currently have, and the system will generate a recipe using those items. Recipes are generated using a custom NLP model trained on real-world cooking data.
+
+#### 🧪 Example Use Cases
+1. A user selects “tomato”, “onion”, and “spinach” and wants a vegan recipe under 30 minutes.
+2. A user wants to regenerate a recipe using the same ingredients but with a different cuisine style.
+3. A user wants to browse all saved recipes tagged “gluten-free” and sorted by prep time.
+4. A user wants to see the step-by-step instructions for a previously generated recipe.
+5. A user wants to update their dietary preferences and regenerate recipes accordingly.
