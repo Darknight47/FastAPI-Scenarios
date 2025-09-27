@@ -36,3 +36,9 @@ class UserRead(UserBase):
 
     class Config:
         from_attributes = True
+
+
+# Log In
+class LogInInput(BaseModel):
+    username_or_email: str
+    password: str
