@@ -5,6 +5,7 @@ from app.db.database import get_db
 from app.models.user import User
 from app.schemas.user import LogInInput, UserCreate, UserRead
 from app.utils.security import hash_password, verify_password
+from app.utils.jwt import create_access_token
 
 # Creating an APIRouter
 router = APIRouter(prefix="/users", tags=["Users"])
@@ -58,7 +59,13 @@ def login(login_data: LogInInput, db: Session = Depends(get_db)):
         )
     
     # Creating JWT Token
-    access_token = create_access_token()
+    access_token = create_access_token({"sub": existing_user.username})
+
+    # return token
+    return{
+        "access_token": access_token,
+        "token_type": "bearer"
+    }
     
     
     
